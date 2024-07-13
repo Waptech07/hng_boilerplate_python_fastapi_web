@@ -1,5 +1,4 @@
 ### Database Schema Documentation
-https://boilerplate-api-design.vercel.app/
 #### **Users Table**
 
 - **Table Name**: users
@@ -97,7 +96,8 @@ https://boilerplate-api-design.vercel.app/
   - `created_at`: `datetime`
 
 ### **API Design Documentation with JWT Authentication**
-
+## API Design LINK
+https://boilerplate-api-design.vercel.app/
 ---
 
 #### **Auth API**
