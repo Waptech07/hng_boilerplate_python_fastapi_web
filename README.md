@@ -1,5 +1,5 @@
 ### Database Schema Documentation
-
+https://boilerplate-api-design.vercel.app/
 #### **Users Table**
 
 - **Table Name**: users
