@@ -95,6 +95,9 @@
   - `payment_data`: `json`
   - `created_at`: `datetime`
 
+![Boilerplate 1](https://github.com/user-attachments/assets/6065cd3d-b734-4a63-a98e-0902d750c21a)
+
+
 ### **API Design Documentation with JWT Authentication**
 ## API Design LINK
 https://boilerplate-api-design.vercel.app/
