@@ -1,3 +1,4 @@
+pytest-mock==3.14.0
 aiosmtplib==2.0.2
 alembic==1.13.2
 annotated-types==0.7.0
