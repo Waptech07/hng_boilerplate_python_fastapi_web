@@ -20,8 +20,9 @@ from api.v1.schemas.auth import UserBase, SuccessResponse, SuccessResponseData, 
 from api.db.database import get_db
 from api.utils.auth import authenticate_user, create_access_token, hash_password,get_user
 from api.utils.dependencies import get_current_admin, get_current_user
-from api.core.email import send_password_reset_email
+from api.v1.services.email import send_password_reset_email
 from api.utils.settings import settings
+from api.utils.json_response import JsonResponseDict
 
 db = next(get_db())
 
@@ -59,7 +60,7 @@ def register_user(user: UserCreate, db: Session = Depends(get_db)):
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="Email already registered",
         )
-    
+
     password_hashed = hash_password(user.password)
 
     access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
@@ -70,12 +71,12 @@ def register_user(user: UserCreate, db: Session = Depends(get_db)):
     db_user = User(
         username=user.username,
         email=user.email,
-        password = password_hashed,
+        password=password_hashed,
         first_name=user.first_name,
         last_name=user.last_name,
         is_active=True
     )
-    try: 
+    try:
         db.add(db_user)
         db.commit()
         db.refresh(db_user)
@@ -107,12 +108,15 @@ def read_admin_data(current_admin: Annotated[User, Depends(get_current_admin)]):
     return {"message": "Hello, admin!"}
 
 
-@auth.post("/password-reset-email", status_code=status.HTTP_200_OK)
+@auth.post("/password-reset-email", response_class=JsonResponseDict)
 async def password_reset_email(request: PasswordResetRequest, db: Session = Depends(get_db)):
     # Verify if the email exists in the database
     user = db.query(User).filter(User.email == request.email).first()
     if not user:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Email not found")
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, 
+            detail="Email not found"
+        )
 
     # Generate a unique token for password reset using JWT
     token_data = {"sub": str(user.email)}
@@ -122,4 +126,8 @@ async def password_reset_email(request: PasswordResetRequest, db: Session = Depe
     reset_link = f"{settings.RESET_PASSWORD_URL}?token={token}"
     send_password_reset_email(user.email, reset_link)
 
-    return {"message": "Password reset email sent successfully.", "reset_link": reset_link}
+    return JsonResponseDict(
+        message="Password reset email sent successfully.",
+        data={"reset_link": reset_link}, 
+        status_code=status.HTTP_200_OK
+    )
