@@ -1,7 +1,7 @@
 from pydantic_settings import BaseSettings
 from decouple import config
 from pathlib import Path
-
+from pydantic import EmailStr
 
 # Use this to build paths inside the project
 BASE_DIR = Path(__file__).resolve().parent
@@ -26,7 +26,7 @@ class Settings(BaseSettings):
     # Email configurations
     MAIL_USERNAME: str = config("MAIL_USERNAME")
     MAIL_PASSWORD: str = config("MAIL_PASSWORD")
-    MAIL_FROM: str = config("MAIL_FROM")
+    MAIL_FROM: EmailStr = config("MAIL_FROM")  # Ensure MAIL_FROM is a valid email address
     MAIL_PORT: int = config("MAIL_PORT", cast=int)
     MAIL_SERVER: str = config("MAIL_SERVER")
     
