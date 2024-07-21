@@ -4,7 +4,7 @@ from typing import Union
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from starlette.requests import Request
-
+from api.v1.routes import auth
 from api.db.database import Base, engine
 
 Base.metadata.create_all(bind=engine)
@@ -32,8 +32,7 @@ app.add_middleware(
 )
 
 
-# app.include_router(auth, tags=["Auth"])
-# app.include_router(users, tags=["Users"])
+app.include_router(auth.router, prefix="/api/v1/auth", tags=["auth"])
 
 
 
