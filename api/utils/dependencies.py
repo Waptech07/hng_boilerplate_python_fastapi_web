@@ -41,3 +41,4 @@ def get_current_admin(db: Session = Depends(get_db), token: str = Depends(oauth2
             detail="You do not have permission to access this resource",
         )
     return user
+
