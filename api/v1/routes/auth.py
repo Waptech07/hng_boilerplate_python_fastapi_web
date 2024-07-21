@@ -21,7 +21,7 @@ from api.db.database import get_db
 from api.utils.auth import authenticate_user, create_access_token, hash_password,get_user
 from api.utils.dependencies import get_current_admin, get_current_user
 from api.core.email import send_password_reset_email
-
+from api.utils.settings import settings
 
 db = next(get_db())
 
@@ -119,7 +119,7 @@ async def password_reset_email(request: PasswordResetRequest, db: Session = Depe
     token = create_access_token(token_data)
 
     # Send the password reset email with the reset link
-    reset_link = f"https://example.com/reset-password?token={token}"
+    reset_link = f"{settings.RESET_PASSWORD_URL}?token={token}"
     send_password_reset_email(user.email, reset_link)
 
     return {"message": "Password reset email sent successfully.", "reset_link": reset_link}

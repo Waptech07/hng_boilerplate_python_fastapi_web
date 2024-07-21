@@ -29,5 +29,7 @@ class Settings(BaseSettings):
     MAIL_FROM: str = config("MAIL_FROM")
     MAIL_PORT: int = config("MAIL_PORT", cast=int)
     MAIL_SERVER: str = config("MAIL_SERVER")
+    
+    RESET_PASSWORD_URL: str = config("RESET_PASSWORD_URL")
 
 settings = Settings()
