@@ -16,10 +16,11 @@ from api.v1.models.role import Role
 from api.v1.models.permission import Permission
 from datetime import datetime, timedelta
 from api.v1.schemas.token import Token, LoginRequest
-from api.v1.schemas.auth import UserBase, SuccessResponse, SuccessResponseData, UserCreate
+from api.v1.schemas.auth import UserBase, SuccessResponse, SuccessResponseData, UserCreate, PasswordResetRequest
 from api.db.database import get_db
-from api.utils.auth import authenticate_user, create_access_token,hash_password,get_user
+from api.utils.auth import authenticate_user, create_access_token, hash_password,get_user
 from api.utils.dependencies import get_current_admin, get_current_user
+from api.core.email import send_password_reset_email
 
 
 db = next(get_db())
@@ -115,7 +116,7 @@ async def password_reset_email(request: PasswordResetRequest, db: Session = Depe
 
     # Generate a unique token for password reset using JWT
     token_data = {"sub": str(user.email)}
-    token = create_reset_token(token_data)
+    token = create_access_token(token_data)
 
     # Send the password reset email with the reset link
     reset_link = f"https://example.com/reset-password?token={token}"
