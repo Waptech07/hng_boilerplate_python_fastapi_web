@@ -27,7 +27,7 @@ class Settings(BaseSettings):
     MAIL_USERNAME: str = config("MAIL_USERNAME")
     MAIL_PASSWORD: str = config("MAIL_PASSWORD")
     MAIL_FROM: EmailStr = config("MAIL_FROM")  # Ensure MAIL_FROM is a valid email address
-    MAIL_PORT: int = config("MAIL_PORT", cast=int)
+    MAIL_PORT: str = config("MAIL_PORT")
     MAIL_SERVER: str = config("MAIL_SERVER")
     
     RESET_PASSWORD_URL: str = config("RESET_PASSWORD_URL")
