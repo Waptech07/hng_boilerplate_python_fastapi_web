@@ -13,8 +13,6 @@ from api.v1.routes.newsletter_router import (
     custom_exception_handler
 )
 
-from api.v1.routes.auth import auth
-
 Base.metadata.create_all(bind=engine)
 
 @asynccontextmanager
