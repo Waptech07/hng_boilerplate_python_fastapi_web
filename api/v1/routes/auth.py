@@ -124,7 +124,7 @@ async def password_reset_email(request: PasswordResetRequest, db: Session = Depe
 
     # Send the password reset email with the reset link
     reset_link = f"{settings.RESET_PASSWORD_URL}?token={token}"
-    send_password_reset_email(user.email, reset_link)
+    await send_password_reset_email(user.email, reset_link)
 
     return JsonResponseDict(
         message="Password reset email sent successfully.",
